@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta charset="UTF-8">
+		<title>openSAP - Developing Web Apps with SAPUI5</title>
+		<script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.m" data-sap-ui-compatversion="edge" data-sap-ui-preload="async" data-sap-ui-resourceroots="{
+				&quot;opensap.myapp&quot;: &quot;./&quot;
+			}">
+
+		</script>
+	
+<script>
+var bRunWithMock = true;
+var sRunWithMock = jQuery.sap.getUriParameters().get('run-with-mock');
+if (sRunWithMock === 'false') {
+bRunWithMock = false;
+}
+if (bRunWithMock) {
+jQuery.sap.require('sap.ui.core.util.MockServer');
+var uri = '/destinations/ES5/sap/opu/odata/IWBEP/GWSAMPLE_BASIC/';
+var oMock = new sap.ui.core.util.MockServer({rootUri : uri});
+var _sAppModulePath = "opensap.myapp/";
+var sMetadataPath = "/destinations/ES5/sap/opu/odata/IWBEP/GWSAMPLE_BASIC/$metadata";
+var sMetadataUrl = jQuery.sap.getModulePath(_sAppModulePath) + "/" + sMetadataPath;
+var sMockdataBaseUrlPath = sMetadataUrl.replace(/[^/]+$/, '');
+oMock.simulate(sMetadataUrl, { sMockdataBaseUrl : sMockdataBaseUrlPath, bGenerateMissingMockData : true });
+oMock.start();
+	sap.ui.getCore().attachInit(function () {
+		console.log('Running in demo mode with mock data.');
+	});
+}
+</script>
+
+
+		<script src="https://sap.github.io/openSAP-ui5-course/Validator.js"></script>
+		<script>
+			sap.ui.getCore().attachInit(function () {
+				new sap.ui.core.ComponentContainer({
+					name : "opensap.myapp"
+				}).placeAt("content");
+			});
+		</script>
+	</head>
+	<body class="sapUiBody" id="content">
+	</body>
+</html> 
+
+
